@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
     alignItems: "center",
     width: "60%",
     margin: theme.spacing(2, 0),
-    ["@media (max-width:900px)"]: { width: "85%" }
+    "@media (max-width:900px)": { width: "85%" }
   },
   input: {
     marginLeft: theme.spacing(1),
