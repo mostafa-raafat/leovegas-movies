@@ -1,6 +1,7 @@
 import React, {useEffect, useState, useCallback} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
+import clsx from "clsx";
 import {Box, makeStyles} from "@material-ui/core";
 
 import {moviesFetchData} from "../../redux/actions/movies";
@@ -12,18 +13,25 @@ const useStyles = makeStyles(() => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    height: "100%",
   },
   cardContainer: {
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "center",
   },
+  centerElement: {
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100%",
+    width: "100%",
+  },
 }));
 
 /**
  * Movies Page Manager.
  */
-const MoviesPage = ({fetchData, movies}) => {
+const MoviesPage = ({fetchData, movies, isLoading}) => {
   const classes = useStyles();
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -56,7 +64,14 @@ const MoviesPage = ({fetchData, movies}) => {
         handleSubmit={handleSubmit}
         handleChange={handleChange}
       />
-      <div className={classes.cardContainer}>
+      <div className={clsx(
+        classes.cardContainer,
+        (movies.length === 0 && !isLoading) && classes.centerElement
+      )}>
+      {(movies.length === 0 && !isLoading) && (
+        // eslint-disable-next-line no-undef
+        <img src={process.env.PUBLIC_URL + "no-data.png"} alt="no-data-icon" />
+      )}
         {movies.length > 0 &&
           movies.map(movie => <MovieCard key={movie.id} movie={movie} />)}
       </div>
